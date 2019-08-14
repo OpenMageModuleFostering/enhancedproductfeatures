@@ -1,0 +1,173 @@
+<?php
+/* @var $block bricks_Catalog_Block_Adminhtml_Tab */
+$block = $this;
+
+/* @var $helper bricks_Catalog_Helper_Data */
+$helper = Mage::helper('bricks_catalog');
+
+ob_start();
+?>
+
+<div class="option-box" id="div_pf_{{id}}">
+	<input type="hidden" name="bricks_pf[{{id}}][id]" id="pf_{{id}}_id" value="{{id}}" />
+	<input type="hidden" name="bricks_pf[{{id}}][feature_id]" id="pf_{{id}}_feature_id" value="{{feature_id}}" />
+	<input type="hidden" name="bricks_pf[{{id}}][is_delete]" id="pf_{{id}}_is_delete" value="0" />
+
+	<table class="form-list">
+		<tr>
+			<td class="label"><label for="pf_{{id}}_title">Title <span class="required">*</span></label></td>
+			<td class="value"><input type="text" class="required-entry input-text field-title" name="bricks_pf[{{id}}][title]" value="{{title}}" id="pf_{{id}}_title" /></td>
+		</tr>
+
+		<tr>
+			<td class="label"><label for="pf_{{id}}_file">Image</label></td>
+			<td class="value">
+				{{image}}
+				<input type="file" class="input-file field-field" name="bricks_pf_{{id}}" id="pf_{{id}}_file" />
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label"><label for="pf_{{id}}_image_position">Image Position</label></td>
+			<td class="value">
+				<select name="bricks_pf[{{id}}][image_position]" id="pf_{{id}}_image_position">
+					<option value="auto">Auto</option>
+					<option value="left">Left</option>
+					<option value="right">Right</option>
+				</select>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label"><label for="pf_{{id}}_content">Content <span class="required">*</span></label></td>
+			<td class="value">
+				<textarea name="bricks_pf[{{id}}][content]" id="pf_{{id}}_content" cols="80" rows="7">{{content}}</textarea>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label"><label for="pf_{{id}}_sort_order">Sort Order</label></td>
+			<td class="value"><input type="text" class="input-text validate-number" name="bricks_pf[{{id}}][sort_order]" value="{{sort_order}}" id="pf_{{id}}_sort_order" /></td>
+		</tr>
+
+		<tr>
+			<td class="label"></td>
+			<td class="value"><?php echo $block->jsQuoteEscape( $block->getChildHtml('delete_button') ) ?></td>
+		</tr>
+	</table>
+</div>
+
+<?php $tmpl = ob_get_clean(); ?>
+
+<div class="entry-edit custom-options product-features">
+	<div class="entry-edit-head">
+		<h4><?php echo Mage::helper('bricks_catalog')->__( 'Product Descriptions' ); ?></h4>
+		<div class="right">
+			<?php echo $this->getChildHtml('add_button'); ?>
+		</div>
+	</div>
+
+	<div id="product_features_container" class="box">
+		<div id="product_features_top"></div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+openEditorPopup = function(url, name, specs, parent) {
+	if ((typeof popups == "undefined") || popups[name] == undefined || popups[name].closed) {
+		if (typeof popups == "undefined") {
+			popups = new Array();
+		}
+		var opener = (parent != undefined ? parent : window);
+		popups[name] = opener.open(url, name, specs);
+	} else {
+		popups[name].focus();
+	}
+	return popups[name];
+};
+
+closeEditorPopup = function(name) {
+	if ((typeof popups != "undefined") && popups[name] != undefined && !popups[name].closed) {
+		popups[name].close();
+	}
+};
+
+(function(){
+	var pfTemplate = <?php echo Mage::helper('core')->jsonEncode( $tmpl ); ?>,
+		bricksField;
+
+	bricksField = {
+		div: $('product_features_top'),
+		templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+		templateText : pfTemplate,
+		itemCount : 1,
+
+		add: function( data ) {
+			this.template = new Template(this.templateText, this.templateSyntax);
+
+			if ( ! data.feature_id ) {
+				data = {
+					id: this.itemCount,
+					feature_id: ''
+				};
+			} else if ( this.itemCount < data.item_count ) {
+				this.itemCount = data.item_count;
+			}
+
+			Element.insert(this.div, { 'after': this.template.evaluate( data ) });
+			var mce = new tinyMceWysiwygSetup( 'pf_' + data.id + '_content', {
+				add_widgets: false,
+				add_variables: false,
+				add_images: false
+			} );
+			mce.turnOn();
+
+			if ( data.image_position && data.id ) {
+				$A( $( 'pf_' + data.id + '_image_position' ).options ).each(function(option){
+					if ( option.value == data.image_position ) {
+						option.selected = true;
+					}
+				});
+			}
+
+			this.itemCount++;
+			this.bindRemoveButtons();
+		},
+
+		remove: function( event ) {
+			var element = $( Event.findElement( event, 'div' ) );
+			if ( element ) {
+				$( element.readAttribute( 'id' ).sub('div_', '') + '_' + 'is_delete' ).value = '1';
+				element.addClassName( 'no-display' );
+				element.addClassName( 'ignore-validate' );
+				element.hide();
+			}
+		},
+
+		bindRemoveButtons: function() {
+			var buttons = $$( 'div.product-features .delete-bricks-product-feature' );
+
+			for ( var i = 0; i < buttons.length; i++ ) {
+				if ( ! $(buttons[i]).binded ) {
+					$( buttons[i] ).binded = true;
+					Event.observe( buttons[i], 'click', this.remove.bind( this ) );
+				}
+			}
+		}
+	};
+
+	if($('add_new_product_feature')){
+		Event.observe('add_new_product_feature', 'click', bricksField.add.bind(bricksField));
+	}
+
+	Event.observe(window, 'load', function() {
+		<?php foreach ( $block->getFeatures() as $feature ): ?>
+			bricksField.add(<?php echo Mage::helper('core')->jsonEncode( $feature ); ?>);
+		<?php endforeach; ?>
+	} );
+
+})();
+//]]>
+</script>

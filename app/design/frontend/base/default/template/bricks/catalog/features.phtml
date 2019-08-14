@@ -1,0 +1,87 @@
+<?php
+/* @var $block Encore_Catalog_Block_Features  */
+$block = $this;
+$features = $block->getFeatures();
+
+if ( empty( $features ) )
+	return;
+
+echo '<div class="bricks-product-features">';
+
+$last_pos = 'left';
+foreach ( $features as $feature ) :
+	if ( $feature['image_position'] == 'auto' ) {
+		if ( $last_pos == 'right' ) {
+			$img_pos = 'left';
+		} else {
+			$img_pos = 'right';
+		}
+	} else {
+		$img_pos = $feature['image_position'];
+	}
+	?>
+
+<div class="feature">
+	<?php if ( 'left' === $img_pos ): ?>
+		<div class="feature-image left"><div class="pad"><?php echo $feature['image']; ?></div></div>
+		<div class="feature-content right">
+			<div class="pad">
+				<h1 class="feature-title"><?php echo strip_tags( $feature['title'] ); ?></h1>
+				<?php echo $feature['content']; ?>
+			</div>
+		</div>
+	<?php else: ?>
+		<div class="feature-content left">
+			<div class="pad">
+				<h1 class="feature-title"><?php echo strip_tags( $feature['title'] ); ?></h1>
+				<?php echo $feature['content']; ?>
+			</div>
+		</div>
+		<div class="feature-image right"><div class="pad"><?php echo $feature['image']; ?></div></div>
+	<?php endif; ?>
+</div>
+
+<?php
+
+	$last_pos = $img_pos;
+endforeach;
+
+echo '</div>';
+?>
+
+<style type="text/css">
+	.bricks-product-features .feature {
+		padding: 10px 0;
+	}
+
+	.bricks-product-features .feature:before,
+	.bricks-product-features .feature:after {
+		content: '';
+		display: table;
+	}
+	.bricks-product-features .feature:after {
+		clear: both;
+	}
+
+	.bricks-product-features .left {
+		float: left;
+	}
+	.bricks-product-features .right {
+		float: right;
+	}
+
+	.bricks-product-features .left .pad {
+		padding-right: 10px;
+	}
+	.bricks-product-features .right .pad {
+		padding-left: 10px;
+	}
+
+	.bricks-product-features .feature-content { width: 70%; }
+	.bricks-product-features .feature-image { width: 30%; }
+
+	.bricks-product-features img {
+		max-width: 100%;
+		height: auto;
+	}
+</style>

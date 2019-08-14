@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>EnhancedProductFeatures</name>
+    <version>0.0.1</version>
+    <stability>stable</stability>
+    <license>OSL-3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>extra_product_options</summary>
+    <description>extra_product_options</description>
+    <notes>extra_product_options</notes>
+    <authors><author><name>adam</name><user>adam</user><email>adam@bricksandmortarweb.com</email></author></authors>
+    <date>2016-02-09</date>
+    <time>15:37:16</time>
+    <contents><target name="magelocal"><dir name="Bricks"><dir name="Catalog"><dir name="Block"><dir name="Adminhtml"><file name="Tab.php" hash="5e7c7c252488396c603086d6b93f688f"/></dir><file name="Features.php" hash="abf2b0b475d654e1781336d128198ce0"/></dir><dir name="Helper"><file name="Data.php" hash="5b528dd94277c1ffb098770770588d19"/></dir><dir name="Model"><file name="Features.php" hash="a717400abc7727acd1f58113212a5930"/><file name="Observer.php" hash="0244461c4b1325bec499231b17a5c76a"/><dir name="Resource"><dir name="Features"><file name="Collection.php" hash="62a75b1f1742126e6c000f0a32c200c7"/></dir><file name="Features.php" hash="bdac41742bf9236eed97f90479b33103"/><file name="Setup.php" hash="270212cb39a17ccd1868453f90815710"/></dir></dir><dir name="etc"><file name="config.xml" hash="2f14ddbd7587b584e30940438f26a342"/></dir><dir name="sql"><dir name="bricks_catalog_setup"><file name="install-0.0.1.php" hash="56c2d641577684e6d9b996c118d22904"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Bricks_Catalog.xml" hash="be46c315620cb5191d038a14e9ff8261"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><dir name="bricks"><file name="catalog.xml" hash="1a37fd801d0521d6dabfca4c513c88b3"/></dir></dir><dir name="template"><dir name="bricks"><dir name="catalog"><file name="tab.phtml" hash="8ddd1fcf888d86b55e20258b106134cb"/></dir></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="bricks"><dir name="catalog"><file name="features.phtml" hash="3e4b0035de88f609e63d9ce3ed6f8b7a"/></dir></dir></dir><dir name="layout"><dir name="bricks"><file name="catalog.xml" hash="a71549cc9fffe40d53e6f7c9890e55bd"/></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>2.0.0.0</min><max>6.0.0.0</max></php></required></dependencies>
+</package>
