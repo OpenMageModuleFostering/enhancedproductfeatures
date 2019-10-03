@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/EnhancedProductFeatures",
+    "name": "OpenMageModuleFostering\/EnhancedProductFeatures",
     "type": "magento-module",
     "license": "OSL-3.0",
     "homepage": "",
     "description": "extra_product_options",
     "authors": [
-    {
-        "name": "adam",
-        "email": "adam@bricksandmortarweb.com"
-    }
-],
+        {
+            "name": "adam",
+            "email": "adam@bricksandmortarweb.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
